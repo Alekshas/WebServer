@@ -27,6 +27,8 @@ public class SignUpServlet extends HttpServlet {
             response.getWriter().println("User name already exists!");
         } else {
             accountService.addNewUser(new UserProfile(login, pass));
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().println("User is created: " + login);
         }
     }
 }
