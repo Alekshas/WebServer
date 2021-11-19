@@ -22,8 +22,11 @@ public class SignUpServlet extends HttpServlet {
         String login = request.getParameter("login");
         String pass = request.getParameter("pass");
 
-        accountService.addNewUser(new UserProfile(login, pass, login));
-
-
+        if (accountService.getUserByLogin(login) != null) {
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().println("User name already exists!");
+        } else {
+            accountService.addNewUser(new UserProfile(login, pass));
+        }
     }
 }

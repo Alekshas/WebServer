@@ -22,12 +22,7 @@ public class SignInServlet extends HttpServlet {
         String login = request.getParameter("login");
         String pass = request.getParameter("pass");
 
-        if (login == null || pass == null) {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-        if (!accountService.getUserByLogin(login).getLogin().equals(login) || !accountService.getUserByLogin(login).getPass().equals(pass)) {
+        if (!accountService.getUserByLogin(login).getPass().equals(pass)) {
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().println("Unauthorized");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -37,6 +32,5 @@ public class SignInServlet extends HttpServlet {
             response.getWriter().println("Authorized:" + accountService.getUserByLogin(login).getLogin());
             response.setStatus(HttpServletResponse.SC_OK);
         }
-
     }
 }
