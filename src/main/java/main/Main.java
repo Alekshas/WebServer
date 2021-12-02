@@ -2,19 +2,34 @@ package main;
 
 import accounts.AccountService;
 import accounts.UserProfile;
+import dao.DAO;
+import dao.UserProfileDAO;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import servlets.SignInServlet;
 import servlets.SignUpServlet;
 
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        AccountService accountService = new AccountService();
+
+        SessionFactory sessionFactory = null;
+        try{
+            sessionFactory = new Configuration().configure("src/main/resources/hibernate.cfg.xml").buildSessionFactory();
+            DAO<UserProfile,String> userProfileStringDAO = new UserProfileDAO(sessionFactory);
+            final UserProfile testUser= new UserProfile("alex","123");
+            userProfileStringDAO.create(testUser);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+       /* AccountService accountService = new AccountService();
 
         accountService.addNewUser(new UserProfile("admin", "admin"));
         accountService.addNewUser(new UserProfile("test","test"));
@@ -35,6 +50,6 @@ public class Main {
 
         server.start();
         System.out.println("Server started");
-        server.join();
+        server.join();*/
     }
 }

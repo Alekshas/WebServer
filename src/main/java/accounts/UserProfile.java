@@ -2,7 +2,10 @@ package accounts;
 
 
 public class UserProfile {
+
+
     private final String login;
+
     private final String pass;
 
 
@@ -10,6 +13,12 @@ public class UserProfile {
         this.login = login;
         this.pass = pass;
 
+    }
+
+    public UserProfile() {
+
+        login = null;
+        pass = null;
     }
 
     public String getLogin() {
