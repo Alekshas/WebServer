@@ -1,5 +1,3 @@
-package main;
-
 import accounts.AccountService;
 import accounts.UserProfile;
 import dao.DAO;
@@ -20,12 +18,12 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         SessionFactory sessionFactory = null;
-        try{
-            sessionFactory = new Configuration().configure("src/main/resources/hibernate.cfg.xml").buildSessionFactory();
-            DAO<UserProfile,String> userProfileStringDAO = new UserProfileDAO(sessionFactory);
-            final UserProfile testUser= new UserProfile("alex","123");
+        try {
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+            DAO<UserProfile, String> userProfileStringDAO = new UserProfileDAO(sessionFactory);
+            final UserProfile testUser = new UserProfile("alex", "123");
             userProfileStringDAO.create(testUser);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
