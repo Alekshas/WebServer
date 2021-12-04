@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:13.3
     environment:
-      POSTGRES_DB: "usrs"
+      POSTGRES_DB: "WebService"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
     ports:

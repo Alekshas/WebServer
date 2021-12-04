@@ -3,49 +3,43 @@ package dao;
 import accounts.UserProfile;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import util.HibernateSessionFactoryUtil;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 
-public class UserProfileDAO implements DAO<UserProfile, String> {
-    private final SessionFactory sessionFactory;
-
-    public UserProfileDAO(@NotNull final SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+public class UserProfileDAO {
+    public UserProfile findByLogin(String login) {
+            return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(UserProfile.class, login);
     }
 
-    public void create(@NotNull final UserProfile userProfile){
-         try(final Session session =sessionFactory.openSession()){
-             session.beginTransaction();
-             session.save(userProfile);
-             session.getTransaction().commit();
-         }
-    }
-
-    @Override
-    public UserProfile read(String user) {
-        try (final Session session = sessionFactory.openSession()) {
-
-            final UserProfile result = session.get(UserProfile.class, user);
-
-            return result != null ? result : new UserProfile();
+    public void save(UserProfile userProfile) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction tx1 = session.beginTransaction();
+            session.save(userProfile);
+            tx1.commit();
         }
     }
 
-    @Override
     public void update(UserProfile userProfile) {
-        try(final Session session =sessionFactory.openSession()){
-            session.beginTransaction();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction tx1 = session.beginTransaction();
             session.update(userProfile);
-            session.getTransaction().commit();
+            tx1.commit();
         }
     }
 
-    @Override
     public void delete(UserProfile userProfile) {
-        try(final Session session =sessionFactory.openSession()){
-            session.beginTransaction();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction tx1 = session.beginTransaction();
             session.delete(userProfile);
-            session.getTransaction().commit();
+            tx1.commit();
         }
+    }
+
+    public ArrayList<UserProfile> findAll() {
+        ArrayList<UserProfile> users = (ArrayList<UserProfile>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From UserProfile ").list();
+        return users;
     }
 }

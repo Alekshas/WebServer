@@ -1,7 +1,6 @@
 package servlets;
 
-import accounts.AccountService;
-import accounts.UserProfile;
+import services.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,10 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class SignInServlet extends HttpServlet {
-    private final AccountService accountService;
 
-    public SignInServlet(AccountService accountService) {
-        this.accountService = accountService;
+    UserService userService = null;
+
+    public SignInServlet(UserService userService) {
+        this.userService = userService;
     }
 
     public void doPost(HttpServletRequest request,
@@ -22,15 +22,16 @@ public class SignInServlet extends HttpServlet {
         String login = request.getParameter("login");
         String pass = request.getParameter("pass");
 
-        if (!accountService.getUserByLogin(login).getPass().equals(pass)) {
+        if (!userService.findUserByLogin(login).getPass().equals(pass)) {
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().println("Unauthorized");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        if (accountService.getUserByLogin(login).getPass().equals(pass)) {
+        if (userService.findUserByLogin(login).getPass().equals(pass)) {
             response.setContentType("text/html;charset=utf-8");
-            response.getWriter().println("Authorized:" + accountService.getUserByLogin(login).getLogin());
+            response.getWriter().println("Authorized:" + userService.findUserByLogin(login).getLogin());
             response.setStatus(HttpServletResponse.SC_OK);
         }
     }
 }
+
