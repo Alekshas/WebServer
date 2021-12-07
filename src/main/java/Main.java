@@ -18,9 +18,6 @@ public class Main {
 
         UserService userService = new UserService();
 
-        userService.saveUser(new UserProfile("admin", "admin"));
-        userService.saveUser(new UserProfile("test","test"));
-
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
         context.addServlet(new ServletHolder(new SignInServlet(userService)), "/signin");

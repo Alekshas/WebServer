@@ -1,5 +1,6 @@
 package servlets;
 
+import accounts.UserProfile;
 import services.UserService;
 
 import javax.servlet.ServletException;
@@ -21,13 +22,13 @@ public class SignInServlet extends HttpServlet {
 
         String login = request.getParameter("login");
         String pass = request.getParameter("pass");
+        UserProfile userProfile = userService.findUserByLogin(login);
 
-        if (!userService.findUserByLogin(login).getPass().equals(pass)) {
+        if (userProfile == null || !userProfile.getPass().equals(pass)) {
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().println("Unauthorized");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        }
-        if (userService.findUserByLogin(login).getPass().equals(pass)) {
+        }else if (userProfile.getPass().equals(pass)) {
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().println("Authorized:" + userService.findUserByLogin(login).getLogin());
             response.setStatus(HttpServletResponse.SC_OK);

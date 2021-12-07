@@ -6,16 +6,20 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import util.HibernateSessionFactoryUtil;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 
 public class UserProfileDAO {
+    SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
+
     public UserProfile findByLogin(String login) {
-            return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(UserProfile.class, login);
+
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(UserProfile.class, login);
+        }
     }
 
     public void save(UserProfile userProfile) {
-        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Transaction tx1 = session.beginTransaction();
             session.save(userProfile);
             tx1.commit();
@@ -23,7 +27,7 @@ public class UserProfileDAO {
     }
 
     public void update(UserProfile userProfile) {
-        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Transaction tx1 = session.beginTransaction();
             session.update(userProfile);
             tx1.commit();
@@ -31,7 +35,7 @@ public class UserProfileDAO {
     }
 
     public void delete(UserProfile userProfile) {
-        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Transaction tx1 = session.beginTransaction();
             session.delete(userProfile);
             tx1.commit();
@@ -39,7 +43,9 @@ public class UserProfileDAO {
     }
 
     public ArrayList<UserProfile> findAll() {
-        ArrayList<UserProfile> users = (ArrayList<UserProfile>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From UserProfile ").list();
-        return users;
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            ArrayList<UserProfile> users = (ArrayList<UserProfile>) session.createQuery("From UserProfile ").list();
+            return users;
+        }
     }
 }
