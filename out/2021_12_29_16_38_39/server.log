@@ -1,0 +1,11 @@
+[12-29 16:38:39,669, 1463] Main Starting at http://127.0.0.1:8080
+[12-29 16:38:39,841, 1635] org.hibernate.Version HHH000412: Hibernate ORM core version 5.6.0.Final
+[12-29 16:38:40,855, 2649] org.hibernate.annotations.common.Version HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[12-29 16:38:41,105, 2899] org.hibernate.orm.connections.pooling HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[12-29 16:38:41,112, 2906] org.hibernate.orm.connections.pooling HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/postgres]
+[12-29 16:38:41,113, 2907] org.hibernate.orm.connections.pooling HHH10001001: Connection properties: {password=****, user=postgres}
+[12-29 16:38:41,113, 2907] org.hibernate.orm.connections.pooling HHH10001003: Autocommit mode: false
+[12-29 16:38:41,116, 2910] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl HHH000115: Hibernate connection pool size: 20 (min=1)
+[12-29 16:38:41,219, 3013] org.hibernate.dialect.Dialect HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL94Dialect
+[12-29 16:38:41,599, 3393] org.hibernate.validator.internal.util.Version HV000001: Hibernate Validator 6.2.0.Final
+[12-29 16:38:42,013, 3807] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
