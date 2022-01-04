@@ -2,8 +2,6 @@ import accountServer.AccountServer;
 import accountServer.AccountServerController;
 import accountServer.AccountServerControllerMBean;
 import accountServer.AccountServerI;
-import accounts.UserProfile;
-import dao.UserProfileDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Handler;
@@ -12,12 +10,12 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import resourceServer.ResourceServer;
+import resourceServer.ResourceServerController;
 import resourceServer.ResourceServerControllerMBean;
 import resourceServer.TestResource;
+import services.ResourceService;
 import services.UserService;
+import servlets.ResourcesServlet;
 import servlets.SignInServlet;
 import servlets.SignUpServlet;
 
@@ -51,17 +49,17 @@ public class Main {
         ObjectName name = new ObjectName("ServerManager:type=AccountServerController");
         mbs.registerMBean(serverStatistics, name);
 
-        TestResource testResource = new TestResource("qwe",27);
+        TestResource testResource = new TestResource("qwe", 27);
 
-        ResourceServerControllerMBean serverControllerMBean = new ResourceServer(testResource);
-        MBeanServer mbs1 = ManagementFactory.getPlatformMBeanServer();
+        ResourceServerControllerMBean serverController = new ResourceServerController(testResource);
         ObjectName name1 = new ObjectName("Admin:type=ResourceServerController");
-        mbs1.registerMBean(serverControllerMBean,name1);
+        mbs.registerMBean(serverController, name1);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        context.addServlet(new ServletHolder(new SignInServlet(userService,accountServer)), "/signin");
+        context.addServlet(new ServletHolder(new SignInServlet(userService, accountServer)), "/signin");
         context.addServlet(new ServletHolder(new SignUpServlet(userService)), "/signup");
+        context.addServlet(new ServletHolder(new ResourcesServlet(new ResourceService(testResource))), "/resources");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setResourceBase("public_html");

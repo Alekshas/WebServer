@@ -1,9 +1,9 @@
 package resourceServer;
 
-public class ResourceServer implements ResourceServerControllerMBean {
+public class ResourceServerController implements ResourceServerControllerMBean {
     private final TestResource testResource;
 
-    public ResourceServer(TestResource testResource) {
+    public ResourceServerController(TestResource testResource) {
         this.testResource = testResource;
     }
 
